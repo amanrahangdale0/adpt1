@@ -11,10 +11,11 @@ export type APIConfig = {
  */
 export async function checkAPIKeyStatus(): Promise<boolean> {
   try {
-    const response = await fetch("http://localhost:5000/api/ai/status", {
+    const baseURL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+    const response = await fetch(`${baseURL}/api/ai/status`, {
       method: "GET",
     });
-    
+
     if (response.ok) {
       const data = await response.json();
       return data.hasApiKey === true;
@@ -32,7 +33,7 @@ export async function checkAPIKeyStatus(): Promise<boolean> {
 export function getAPIConfig(): APIConfig {
   // Backend API URL (can be configured via env)
   const baseURL = import.meta.env.VITE_API_URL || "http://localhost:5000";
-  
+
   return {
     baseURL,
     hasAPIKey: false, // Will be checked dynamically
@@ -49,7 +50,7 @@ export async function callAIAPI(
 ): Promise<{ success: boolean; data?: any; error?: string }> {
   try {
     const config = getAPIConfig();
-    
+
     // Try backend API first
     const response = await fetch(`${config.baseURL}/api/ai/chat`, {
       method: "POST",
@@ -88,10 +89,10 @@ export function getAPIErrorMessage(error: string): string {
   if (error.includes("API key") || error.includes("401")) {
     return "⚠️ AI features require an API key. Please add your OpenAI API key in the backend .env file.";
   }
-  
+
   if (error.includes("Network") || error.includes("fetch")) {
-    return "⚠️ Cannot connect to backend server. Make sure it's running on port 5000.";
+    return "⚠️ Cannot connect to backend server. Make sure it's running.";
   }
-  
+
   return `⚠️ AI request failed: ${error}`;
 }

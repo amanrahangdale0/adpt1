@@ -7,11 +7,11 @@ export async function uploadNotesText(text: string) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ text }),
   });
-  
+
   if (!res.ok) {
     const txt = await res.text();
     throw new Error("Notes API Error: " + txt);
   }
-  
+
   return res.json();
 }

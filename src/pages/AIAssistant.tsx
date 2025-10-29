@@ -7,6 +7,9 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useNotifications } from "@/hooks/useNotifications"; // 🛎️ notifications hook
 import { createICS } from "@/lib/createICS"; // 📅 calendar export utility
 
+// API Configuration
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 type Message = {
   role: "user" | "assistant";
   content: string;
@@ -61,7 +64,7 @@ export default function AIAssistant() {
     setLoading(true);
 
     try {
-      const response = await fetch("/api/ai/chat", {
+      const response = await fetch(`${API_URL}/api/ai/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -154,7 +157,7 @@ export default function AIAssistant() {
     setInput("");
 
     try {
-      const response = await fetch("/api/ai/chat", {
+      const response = await fetch(`${API_URL}/api/ai/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -204,16 +207,14 @@ export default function AIAssistant() {
             {messages.map((message, index) => (
               <div
                 key={index}
-                className={`flex ${
-                  message.role === "user" ? "justify-end" : "justify-start"
-                } animate-fade-in`}
+                className={`flex ${message.role === "user" ? "justify-end" : "justify-start"
+                  } animate-fade-in`}
               >
                 <div
-                  className={`max-w-[80%] p-4 rounded-2xl ${
-                    message.role === "user"
-                      ? "bg-gradient-to-r from-primary to-secondary text-background ml-4"
-                      : "glass-panel electric-border"
-                  }`}
+                  className={`max-w-[80%] p-4 rounded-2xl ${message.role === "user"
+                    ? "bg-gradient-to-r from-primary to-secondary text-background ml-4"
+                    : "glass-panel electric-border"
+                    }`}
                 >
                   <p className="text-sm leading-relaxed whitespace-pre-line">
                     {message.content}

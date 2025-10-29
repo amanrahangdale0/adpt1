@@ -22,13 +22,19 @@ export async function handleAIChat(req, res) {
     const OPENAI_KEY = process.env.OPENAI_API_KEY;
     if (!OPENAI_KEY) return res.status(500).json({ error: "Missing OPENAI_API_KEY" });
 
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${OPENAI_KEY}`,
+        "HTTP-Referer": "http://localhost:5001",
+        "X-Title": "ADPT Study Planner",
       },
-      body: JSON.stringify({ model: "gpt-4o-mini", messages, max_tokens: max_tokens ?? 800 }),
+      body: JSON.stringify({
+        model: "openai/gpt-4o-mini",
+        messages,
+        max_tokens: max_tokens ?? 800
+      }),
     });
 
     const data = await response.json();
@@ -61,13 +67,19 @@ export async function handleNotesUpload(req, res) {
       },
     ];
 
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${OPENAI_KEY}`,
+        "HTTP-Referer": "http://localhost:5001",
+        "X-Title": "ADPT Study Planner",
       },
-      body: JSON.stringify({ model: "gpt-4o-mini", messages: summaryPrompt, max_tokens: 800 }),
+      body: JSON.stringify({
+        model: "openai/gpt-4o-mini",
+        messages: summaryPrompt,
+        max_tokens: 800
+      }),
     });
 
     const data = await response.json();
@@ -100,13 +112,18 @@ export async function handleGoalGeneration(req, res) {
       },
     ];
 
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${OPENAI_KEY}`,
+        "HTTP-Referer": "http://localhost:5001",
+        "X-Title": "ADPT Study Planner",
       },
-      body: JSON.stringify({ model: "gpt-4o-mini", messages }),
+      body: JSON.stringify({
+        model: "openai/gpt-4o-mini",
+        messages
+      }),
     });
 
     const data = await response.json();

@@ -26,14 +26,16 @@ app.post("/api/chat", async (req, res) => {
       return res.status(400).json({ error: "Missing prompt or API key." });
     }
 
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${apiKey}`,
         "Content-Type": "application/json",
+        "HTTP-Referer": "http://localhost:5001",
+        "X-Title": "ADPT Study Planner",
       },
       body: JSON.stringify({
-        model: "gpt-3.5-turbo",
+        model: "openai/gpt-3.5-turbo",
         messages: [{ role: "user", content: userPrompt }],
       }),
     });
@@ -46,4 +48,4 @@ app.post("/api/chat", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Server runninggg on http://localhost:${PORT}`));

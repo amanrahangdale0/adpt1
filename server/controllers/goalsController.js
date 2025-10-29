@@ -126,14 +126,16 @@ export async function extractNotesController(req, res) {
       prompt ||
       `You are a study assistant. Extract the key topics and a 4-line study plan from these notes. Return JSON: {"topics":[...],"summary":"...","suggested_tasks":[{ "title":"", "minutes":30}]}\n\nNotes:\n${rawText.slice(0, 30000)}`;
 
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${OPENAI_KEY}`,
         "Content-Type": "application/json",
+        "HTTP-Referer": "http://localhost:5001",
+        "X-Title": "ADPT Study Planner",
       },
       body: JSON.stringify({
-        model: "gpt-4o-mini",
+        model: "openai/gpt-4o-mini",
         messages: [{ role: "user", content: aiPrompt }],
         max_tokens: 600,
       }),

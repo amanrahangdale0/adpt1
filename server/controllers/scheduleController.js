@@ -67,14 +67,16 @@ Generate a study schedule for the next 7 days. Use realistic session timings and
       },
     ];
 
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${OPENAI_KEY}`,
+        "HTTP-Referer": "http://localhost:5001",
+        "X-Title": "ADPT Study Planner",
       },
       body: JSON.stringify({
-        model: "gpt-4o-mini",
+        model: "openai/gpt-4o-mini",
         messages,
         temperature: 0.8,
         max_tokens: 1000,

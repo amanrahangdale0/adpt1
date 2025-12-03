@@ -60,7 +60,4 @@ Once the API key is added, the app seamlessly integrates AI features like **smar
 - Works on desktops, tablets, and Android browsers flawlessly.  
 - Adaptive layouts ensure smooth interaction across all devices.
 
----
-
-## 🏗️ Folder Structure
 
